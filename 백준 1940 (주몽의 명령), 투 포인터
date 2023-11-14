@@ -1,0 +1,42 @@
+// 백준 1940 (주몽의 명령), 투 포인터
+#include <string>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main(){
+    int N, M; // 원소 개수, 타깃
+ 
+    cout << "원소개수, 타깃 값 입력";
+    cin >> N >> M;
+
+    vector<int> a(N,0);
+    int s_idx = 0;
+    int e_idx = N-1;
+    int count = 0;
+    
+    for(int i=0 ; i<N ; i++){
+        cout << i+1 << "번 째 값 : " << endl;
+        cin >> a[i];
+    }
+
+    sort(a.begin(), a.end());
+    
+    while(s_idx < e_idx){
+        if(a[s_idx] + a[e_idx] == M){
+            count++;
+            s_idx++;
+            e_idx--;
+        }
+        else if(a[s_idx] + a[e_idx] < M){
+            s_idx++;
+        }
+        else if(a[s_idx] + a[e_idx] > M){
+            e_idx--;
+        }
+        
+    }
+    cout << count;
+}
