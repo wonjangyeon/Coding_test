@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+static vector<bool> visited; //방문 기록 저장 벡터
+static vector<vector<int>> graph; // 그래프 저장 인접 리스트
+void DFS(int v); //깊이우선 탐색
+
+// 깊이우선탐색 알고리즘
+void DFS(int v){
+    if(visited[v]){ //현재 노드가 방문 노드라면
+        return;
+    }
+    
+    visited[v] = true; // 배열에 현재 노드 방문 기록 
+    
+    for(int i : graph[v]){ 
+        if(visited[i] == false){ // 방문하지 않은 노드라면 DFS 재귀 호출
+            DFS(i);
+        }
+    }
+}
+
+int main(){
+// 입력된 N,M 세팅
+int N, M;
+cout << "노드. 엣지 입력하세요";
+cin >> N >> M;
+graph.resize(N+1);
+visited = vector<bool>(N+1, false);
+    
+    // 시작 노드:s, 연결 노드:e 입력받아 graph에 저장
+    for(int i=0 ; i<M ; i++){
+        int s, e;
+        cin >> s >> e;
+        graph[s].push_back(e);
+        graph[e].push_back(s);
+    }
+    /* 그래프가 어떻게 저장되는지 test
+    for(int i=0 ; i<graph.size() ;i++){
+        cout << endl;
+        for(int j=0 ; j<graph[i].size() ; j++)
+        cout << graph[i][j];
+    }*/
+    
+    // 연결 요소 count
+    int count = 0;
+    for(int i=1 ; i<N+1 ; i++){
+        if(!visited[i]){
+            count++;
+            DFS(i);
+        }
+    }
+    cout << "연결요소 개수는 : "<< count << endl;
+    
+}
