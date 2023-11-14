@@ -1,0 +1,48 @@
+// 좋은 수 구하기(백준 1253)
+#include <string>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main(){
+    int N; // 수의 개수
+    cin >> N;
+    
+    int count =0;
+    vector<int> a(N,0); // 전체 수를 담을 벡터
+    
+    for(int i=0 ; i<N ; i++){
+        cin >> a[i];
+    }
+    
+    sort(a.begin(), a.end());
+    
+    // 벡터의 원소(k)를 기준으로 2개 원소(a[s_idx] + a[e_idx])의 합으로 만들수 있는 지 Check
+    for(int k=0 ; k<N ; k++){
+        long target = a[k];
+        int s_idx = 0;
+        int e_idx = N-1;
+        
+        
+        while(s_idx < e_idx){
+            if(a[s_idx] + a[e_idx] == target){
+                if(s_idx != k && e_idx != k){
+                    count++;
+                    break;
+                }
+                else if(s_idx == k) s_idx++;    // 해당 원소에 포함되는 경우 패스
+                else if(e_idx == k) e_idx--;
+            }
+            
+            else if(a[s_idx] + a[e_idx] < target){
+                s_idx++;
+                
+            }
+            else if(a[s_idx] + a[e_idx] > target){
+                e_idx--;
+            }
+        }
+    }
+    cout << count;
+}
