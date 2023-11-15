@@ -1,0 +1,43 @@
+#include <iostream>
+
+using namespace std;
+
+void DFS(int number, int no);
+bool isPrime(int num);
+static int N;
+
+int main(){
+    
+    cin >> N;
+    DFS(2, 1);
+    DFS(3, 1);
+    DFS(5, 1);
+    DFS(7, 1);
+    
+}
+
+void DFS(int number, int no){
+    if(N == no){
+        if(isPrime(number)){
+            cout << number << endl;
+        }
+        return;
+    }
+    for(int i=0 ; i<10 ; i++){
+        if(i%2 == 0) continue;  // 짝수는 버리기
+    
+        if(isPrime(number*10 + i)){ // 소수이면 다름 자리수를 올려 재귀 호출
+            DFS(number*10+i, no+1);
+        }
+    }
+    
+}
+
+bool isPrime(int num){
+    for(int i=2 ; i<num/2 ; i++){
+        if(num % i == 0){
+            return false;
+        }
+    }
+    return true;
+}
