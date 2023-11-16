@@ -1,0 +1,41 @@
+- 생각의 흐름
+1. 던전을 탐험한다 -> DFS 탐색
+2. 던전에 입장하기 위해선 보유 피로도가 입장가능 피로도 보다 커야 한다.
+3. 보유 피로도에서 소모 피로도를 소모하여 던전에 입장한다, 방문여부를 true, count ++
+4. 최대 던전수를 구해야 하기 때문에 싸이클이 끝난뒤 count가 더 크면 answer를 count로 교체한다.
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int answer = 0;
+vector <bool> visited;
+// dungeon 벡터, 보유 피로도(k), 방문 던전수(count)
+void DFS(vector<vector<int>> dungeons, int k, int count){
+    // 최대 방문 던전수가 갱신됬을 시 교체
+    if(count > answer) answer = count;
+
+    
+    for(int i=0 ; i<dungeons.size() ; i++){
+        // 다음 던전이 아직 방문하지 않은 던전이고, 입장 필요 피로도가 보유 피로도보다 작다면
+        if(visited[i] == false && dungeons[i][0] <= k){
+            // 방문했다고 체크하고
+            visited[i] = true;
+            // 소모 피로도를 소모해주고, 방문 수를 한개 늘려 입장
+            DFS(dungeons, k-dungeons[i][1], count+1);
+
+            // 다음 사이클에서 사용할 수 있도록 방문기록 리셋
+            visited[i] = false;
+        }
+    }
+}
+
+int solution(int k, vector<vector<int>> dungeons) {
+    
+    visited = vector<bool>(k, false);
+    // 처음 입장
+    DFS(dungeons, k, 0);
+    
+    return answer;
+}
