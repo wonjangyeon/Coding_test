@@ -1,0 +1,37 @@
+- 아이디어
+1. DFS 사용이 명확하다
+2. DFS를 돌면서 끝까지 탐색한 후 answer++을 해주면 연결 요소들의 개수를 알 수 있다.
+3. 모든 노드를 방문하도록 세팅
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<bool> visited;
+
+void DFS(int now_com, int n, vector<vector<int>> computers){
+
+    visited[now_com] = true;
+    
+    for(int i=0 ; i<n ; i++){
+        if(visited[i] == false && computers[now_com][i] == 1){ // 아직 방문하지 않았고, 다른 컴퓨터와 연결되어 있는 경우 다음 DFS 탐색
+            DFS(i, n, computers);
+        }
+    }
+}
+
+int solution(int n, vector<vector<int>> computers) {
+    int answer = 0;
+    visited = vector<bool>(n+1, false);
+    
+    // 방문하지 않은 노드가 없을 떄 까지 반복
+    for(int i=0 ; i<n ; i++){
+        if(visited[i] == false){
+            DFS(i, n, computers);
+            answer++;
+        }
+    }
+    
+    return answer;
+}
