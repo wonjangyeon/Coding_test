@@ -1,0 +1,36 @@
+- 아이디어
+1. A -> AA -> AAA ~ UUUUU 형태는 DFS를 사용
+2. 종료 조건 1) DFS 값이 타겟 값과 일치 2) 길이가 5를 넘어감
+3. A -> AA 를 호출하는 조건 => DFS(현재(A) + AEIOU[i])
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int answer = 0;
+int count = -1;
+string target = "";
+string aeiou = "AEIOU";
+
+void DFS(string word){
+    count++;
+    // 종료 조건    
+    if(word == target){
+        answer = count;
+        return;
+    }
+    if(word.length() >= 5){
+        return;}
+    // 재귀 조건
+    for(int i=0 ; i<aeiou.size() ; i++){
+        DFS(word + aeiou[i]);
+    }
+}
+
+int solution(string word) {
+    target = word;
+    DFS("");
+    
+    return answer;
+}
